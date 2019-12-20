@@ -7,15 +7,15 @@ public final class ItemMother {
 	}
 
 	public static ItemBuilder legendary() {
-		return random().withName("Sulfuras, Hand of Ragnaros");
+		return random().withName(GildedRose.LEGENDARY_ITEM);
 	}
 
 	public static ItemBuilder agedBrie() {
-		return random().withName("Aged Brie");
+		return random().withName(GildedRose.AGED_BRIE_ITEM);
 	}
 
 	public static ItemBuilder backstage() {
-		return random().withName("Backstage passes to a TAFKAL80ETC concert");
+		return random().withName(GildedRose.BACKSTAGE_PASS_ITEM);
 	}
 
 	static class ItemBuilder {
