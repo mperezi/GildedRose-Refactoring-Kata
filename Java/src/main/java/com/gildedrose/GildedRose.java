@@ -25,9 +25,10 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
+            if (item.name.equals(LEGENDARY_ITEM)) continue;
+
             if (!item.name.equals(AGED_BRIE_ITEM)
-                && !item.name.equals(BACKSTAGE_PASS_ITEM)
-                && !item.name.equals(LEGENDARY_ITEM)) {
+                && !item.name.equals(BACKSTAGE_PASS_ITEM)) {
                 updateItemQuality(item, -1);
             } else {
                 updateItemQuality(item, 1);
@@ -41,9 +42,7 @@ class GildedRose {
                 }
             }
 
-            if (!item.name.equals(LEGENDARY_ITEM)) {
-                item.sellIn = item.sellIn - 1;
-            }
+            item.sellIn -= 1;
 
             if (item.sellIn < 0) {
                 if (item.name.equals(AGED_BRIE_ITEM)) {
@@ -52,9 +51,7 @@ class GildedRose {
                     if (item.name.equals(BACKSTAGE_PASS_ITEM)) {
                         item.quality = 0;
                     } else {
-                        if (!item.name.equals(LEGENDARY_ITEM)) {
-                            updateItemQuality(item, -1);
-                        }
+                        updateItemQuality(item, -1);
                     }
                 }
             }
