@@ -27,32 +27,37 @@ class GildedRose {
         for (Item item : items) {
             if (item.name.equals(LEGENDARY_ITEM)) continue;
 
-            if (!item.name.equals(AGED_BRIE_ITEM)
-                && !item.name.equals(BACKSTAGE_PASS_ITEM)) {
-                updateItemQuality(item, -1);
-            } else {
-                updateItemQuality(item, 1);
-                if (item.name.equals(BACKSTAGE_PASS_ITEM)) {
+            switch (item.name) {
+                case AGED_BRIE_ITEM:
+                    updateItemQuality(item, 1);
+                    break;
+                case BACKSTAGE_PASS_ITEM:
+                    updateItemQuality(item , 1);
                     if (item.sellIn < BACKSTAGE_DEADLINE_1) {
                         updateItemQuality(item, 1);
                     }
                     if (item.sellIn < BACKSTAGE_DEADLINE_2) {
-                       updateItemQuality(item, 1);
+                        updateItemQuality(item, 1);
                     }
-                }
+                    break;
+                default:
+                    updateItemQuality(item, -1);
+                    break;
             }
 
             item.sellIn -= 1;
 
             if (item.sellIn < 0) {
-                if (item.name.equals(AGED_BRIE_ITEM)) {
-                    updateItemQuality(item, 1);
-                } else {
-                    if (item.name.equals(BACKSTAGE_PASS_ITEM)) {
-                        item.quality = 0;
-                    } else {
+                switch (item.name) {
+                    case AGED_BRIE_ITEM:
+                        updateItemQuality(item, 1);
+                        break;
+                    case BACKSTAGE_PASS_ITEM:
+                        updateItemQuality(item, -item.quality);
+                        break;
+                    default:
                         updateItemQuality(item, -1);
-                    }
+                        break;
                 }
             }
         }
