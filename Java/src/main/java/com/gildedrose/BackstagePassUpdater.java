@@ -7,13 +7,13 @@ public final class BackstagePassUpdater implements ItemUpdater {
 	@Override
 	public void update(Item item) {
 		if (item.sellIn < 0) {
-			ItemQualityUpdater.update(item, -item.quality);
+			ItemQualityShifter.shift(item, -item.quality);
 		} else if (item.sellIn < DEADLINE_2) {
-			ItemQualityUpdater.update(item, 3);
+			ItemQualityShifter.shift(item, 3);
 		} else if (item.sellIn < DEADLINE_1) {
-			ItemQualityUpdater.update(item, 2);
+			ItemQualityShifter.shift(item, 2);
 		} else {
-			ItemQualityUpdater.update(item, 1);
+			ItemQualityShifter.shift(item, 1);
 		}
 	}
 }
