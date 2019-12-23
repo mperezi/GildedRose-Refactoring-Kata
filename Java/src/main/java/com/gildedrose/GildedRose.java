@@ -1,69 +1,29 @@
 package com.gildedrose;
 
-class GildedRose {
-    static final int MAX_QUALITY = 50;
-    static final int MIN_QUALITY = 0;
-    static final int BACKSTAGE_DEADLINE_1 = 11;
-    static final int BACKSTAGE_DEADLINE_2 = 6;
+import java.util.Arrays;
+import java.util.function.Predicate;
 
+class GildedRose {
     static final String AGED_BRIE_ITEM = "Aged Brie";
     static final String BACKSTAGE_PASS_ITEM = "Backstage passes to a TAFKAL80ETC concert";
     static final String LEGENDARY_ITEM = "Sulfuras, Hand of Ragnaros";
+    private static final Predicate<Item> REGULAR_ITEM_FILTER =
+            item -> !item.name.equals(LEGENDARY_ITEM) &&
+                    !item.name.equals(AGED_BRIE_ITEM) &&
+                    !item.name.equals(BACKSTAGE_PASS_ITEM);
 
     Item[] items;
+    private final FilteredUpdater itemUpdater = new FilteredUpdater();
 
     public GildedRose(Item[] items) {
         this.items = items;
+        itemUpdater.setFilter(item -> !item.name.equals(LEGENDARY_ITEM), new SellInDecreaser())
+                   .setFilter(item -> item.name.equals(AGED_BRIE_ITEM), new AgedBrieUpdater())
+                   .setFilter(item -> item.name.equals(BACKSTAGE_PASS_ITEM), new BackstagePassUpdater())
+                   .setFilter(REGULAR_ITEM_FILTER, new RegularItemUpdater());
     }
 
     public void updateQuality() {
-        for (Item item : items) {
-            updateItemSellIn(item);
-            updateItemQuality(item);
-        }
-    }
-
-    private void updateItemSellIn(Item item) {
-        if (!item.name.equals(LEGENDARY_ITEM)) {
-            item.sellIn -= 1;
-        }
-    }
-
-    private void updateItemQuality(Item item) {
-        switch (item.name) {
-            case LEGENDARY_ITEM:
-                break;
-            case AGED_BRIE_ITEM:
-                updateItemQuality(item, 1);
-                if (item.sellIn < 0) {
-                    updateItemQuality(item, 1);
-                }
-                break;
-            case BACKSTAGE_PASS_ITEM:
-                updateItemQuality(item, 1);
-                if (item.sellIn < BACKSTAGE_DEADLINE_1) {
-                    updateItemQuality(item, 1);
-                }
-                if (item.sellIn < BACKSTAGE_DEADLINE_2) {
-                    updateItemQuality(item, 1);
-                }
-                if (item.sellIn < 0) {
-                    updateItemQuality(item, -item.quality);
-                }
-                break;
-            default:
-                updateItemQuality(item, -1);
-                if (item.sellIn < 0) {
-                    updateItemQuality(item, -1);
-                }
-                break;
-        }
-    }
-
-    private void updateItemQuality(Item item, int delta) {
-        int newQuality = item.quality + delta;
-        if (newQuality >= MIN_QUALITY && newQuality <= MAX_QUALITY) {
-            item.quality = newQuality;
-        }
+        Arrays.stream(items).forEach(itemUpdater::update);
     }
 }

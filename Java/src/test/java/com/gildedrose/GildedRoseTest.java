@@ -2,13 +2,14 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
-import static com.gildedrose.GildedRose.MAX_QUALITY;
-import static com.gildedrose.GildedRose.MIN_QUALITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GildedRoseTest {
+
+    static final int MIN_QUALITY = 0;
+    static final int MAX_QUALITY = 50;
 
     @Test
     void givenItemWithQualityZero_whenUpdate_ThenQualityStillZero() {
