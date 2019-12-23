@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,14 +8,20 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GildedRoseTest {
-
     static final int MIN_QUALITY = 0;
     static final int MAX_QUALITY = 50;
+
+    FilteredUpdater itemUpdater;
+
+    @BeforeEach
+    void setUp() {
+        itemUpdater = UpdateRules.itemUpdater();
+    }
 
     @Test
     void givenItemWithQualityZero_whenUpdate_ThenQualityStillZero() {
         Item[] items = { ItemMother.random().withQuality(MIN_QUALITY).build() };
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -24,7 +31,7 @@ class GildedRoseTest {
     @Test
     void givenSpecialItemWithQualityFifty_whenUpdate_ThenQualityStillFifty() {
         Item[] items = { ItemMother.random().withName("Aged Brie").withQuality(MAX_QUALITY).build() };
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -38,7 +45,7 @@ class GildedRoseTest {
         Item[] items = {agedBrie, backstage};
         int initialQualityAgedBrie = agedBrie.quality;
         int initialQualityBackstage = backstage.quality;
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -50,7 +57,7 @@ class GildedRoseTest {
     void givenLegendaryItem_whenUpdate_ThenQualityDontDecrease() {
         Item[] items = { ItemMother.legendary().build() };
         int initialQuality = items[0].quality;
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -61,7 +68,7 @@ class GildedRoseTest {
     void givenLegendaryItem_whenUpdate_ThenSellInDontDecrease() {
         Item[] items = { ItemMother.legendary().build() };
         int initialSellIn = items[0].sellIn;
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -72,7 +79,7 @@ class GildedRoseTest {
     void givenBackstageAndSellInUnderTen_whenUpdate_ThenQualityIncreasesBy2() {
         Item[] items = { ItemMother.backstage().withSellIn(10).build() };
         int initialQuality = items[0].quality;
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -83,7 +90,7 @@ class GildedRoseTest {
     void givenBackstageAndSellInUnderFive_whenUpdate_ThenQualityIncreasesBy3() {
         Item[] items = { ItemMother.backstage().withSellIn(5).build() };
         int initialQuality = items[0].quality;
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -93,7 +100,7 @@ class GildedRoseTest {
     @Test
     void givenBackstageAndSellInZero_whenUpdate_ThenQualityDropsToZero() {
         Item[] items = { ItemMother.backstage().withSellIn(0).build() };
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 
@@ -104,7 +111,7 @@ class GildedRoseTest {
     void givenItemWithSellInZero_whenUpdate_ThenQualityDegradesTwice() {
         Item[] items = { ItemMother.random().withSellIn(0).build() };
         int initialQuality = items[0].quality;
-        GildedRose app = new GildedRose(items);
+        GildedRose app = new GildedRose(items, itemUpdater);
 
         app.updateQuality();
 

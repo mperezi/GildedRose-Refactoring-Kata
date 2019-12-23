@@ -1,5 +1,9 @@
 package com.gildedrose;
 
+import static com.gildedrose.UpdateRules.AGED_BRIE_ITEM;
+import static com.gildedrose.UpdateRules.BACKSTAGE_PASS_ITEM;
+import static com.gildedrose.UpdateRules.LEGENDARY_ITEM;
+
 public final class ItemMother {
 
 	public static ItemBuilder random() {
@@ -7,15 +11,15 @@ public final class ItemMother {
 	}
 
 	public static ItemBuilder legendary() {
-		return random().withName(GildedRose.LEGENDARY_ITEM);
+		return random().withName(LEGENDARY_ITEM);
 	}
 
 	public static ItemBuilder agedBrie() {
-		return random().withName(GildedRose.AGED_BRIE_ITEM);
+		return random().withName(AGED_BRIE_ITEM);
 	}
 
 	public static ItemBuilder backstage() {
-		return random().withName(GildedRose.BACKSTAGE_PASS_ITEM);
+		return random().withName(BACKSTAGE_PASS_ITEM);
 	}
 
 	static class ItemBuilder {
