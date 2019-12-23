@@ -11,7 +11,7 @@ class GildedRoseTest {
     static final int MIN_QUALITY = 0;
     static final int MAX_QUALITY = 50;
 
-    FilteredUpdater itemUpdater;
+    ItemUpdater itemUpdater;
 
     @BeforeEach
     void setUp() {

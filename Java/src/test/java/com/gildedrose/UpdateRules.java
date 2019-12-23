@@ -15,7 +15,7 @@ public final class UpdateRules {
 			.and(ONLY_AGED_BRIE.negate())
 			.and(ONLY_BACKSTAGE_PASSES.negate());
 
-	static FilteredUpdater itemUpdater() {
+	static ItemUpdater itemUpdater() {
 		return new FilteredUpdater()
 				.setFilter(NON_LEGENDARY_ITEMS, new SellInDecreaser())
 				.setFilter(ONLY_AGED_BRIE, new AgedBrieUpdater())

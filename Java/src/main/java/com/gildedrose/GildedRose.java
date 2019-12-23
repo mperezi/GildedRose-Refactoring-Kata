@@ -5,9 +5,9 @@ import java.util.Arrays;
 class GildedRose {
 
     Item[] items;
-    private final FilteredUpdater itemUpdater;
+    private final ItemUpdater itemUpdater;
 
-    public GildedRose(Item[] items, FilteredUpdater itemUpdater) {
+    public GildedRose(Item[] items, ItemUpdater itemUpdater) {
         this.items = items;
         this.itemUpdater = itemUpdater;
     }
