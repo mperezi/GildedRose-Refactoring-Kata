@@ -16,45 +16,54 @@ class GildedRose {
         this.items = items;
     }
 
+    public void updateQuality() {
+        for (Item item : items) {
+            updateItemSellIn(item);
+            updateItemQuality(item);
+        }
+    }
+
+    private void updateItemSellIn(Item item) {
+        if (!item.name.equals(LEGENDARY_ITEM)) {
+            item.sellIn -= 1;
+        }
+    }
+
+    private void updateItemQuality(Item item) {
+        switch (item.name) {
+            case LEGENDARY_ITEM:
+                break;
+            case AGED_BRIE_ITEM:
+                updateItemQuality(item, 1);
+                if (item.sellIn < 0) {
+                    updateItemQuality(item, 1);
+                }
+                break;
+            case BACKSTAGE_PASS_ITEM:
+                updateItemQuality(item, 1);
+                if (item.sellIn < BACKSTAGE_DEADLINE_1) {
+                    updateItemQuality(item, 1);
+                }
+                if (item.sellIn < BACKSTAGE_DEADLINE_2) {
+                    updateItemQuality(item, 1);
+                }
+                if (item.sellIn < 0) {
+                    updateItemQuality(item, -item.quality);
+                }
+                break;
+            default:
+                updateItemQuality(item, -1);
+                if (item.sellIn < 0) {
+                    updateItemQuality(item, -1);
+                }
+                break;
+        }
+    }
+
     private void updateItemQuality(Item item, int delta) {
         int newQuality = item.quality + delta;
         if (newQuality >= MIN_QUALITY && newQuality <= MAX_QUALITY) {
             item.quality = newQuality;
-        }
-    }
-
-    public void updateQuality() {
-        for (Item item : items) {
-            if (item.name.equals(LEGENDARY_ITEM)) continue;
-
-            item.sellIn -= 1;
-
-            switch (item.name) {
-                case AGED_BRIE_ITEM:
-                    updateItemQuality(item, 1);
-                    if (item.sellIn < 0) {
-                        updateItemQuality(item, 1);
-                    }
-                    break;
-                case BACKSTAGE_PASS_ITEM:
-                    updateItemQuality(item, 1);
-                    if (item.sellIn < BACKSTAGE_DEADLINE_1) {
-                        updateItemQuality(item, 1);
-                    }
-                    if (item.sellIn < BACKSTAGE_DEADLINE_2) {
-                        updateItemQuality(item, 1);
-                    }
-                    if (item.sellIn < 0) {
-                        updateItemQuality(item, -item.quality);
-                    }
-                    break;
-                default:
-                    updateItemQuality(item, -1);
-                    if (item.sellIn < 0) {
-                        updateItemQuality(item, -1);
-                    }
-                    break;
-            }
         }
     }
 }
